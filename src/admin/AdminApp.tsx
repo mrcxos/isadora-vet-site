@@ -1,7 +1,9 @@
+import { ImagesEditor } from './pages/editors/ImagesEditor'
 import { useState } from 'react'
 import { useNavigate, Routes, Route } from 'react-router'
 import { supabase } from '../lib/supabase'
 import { Dashboard } from './pages/Dashboard'
+
 
 import { HeroEditor } from './pages/editors/HeroEditor'
 import { ContactEditor } from './pages/editors/ContactEditor'
@@ -10,6 +12,7 @@ import { DestinationsEditor } from './pages/editors/DestinationsEditor'
 import { TestimonialsEditor } from './pages/editors/TestimonialsEditor'
 import { FaqEditor } from './pages/editors/FaqEditor'
 import { AboutEditor } from './pages/editors/AboutEditor'
+import { AboutTimelineEditor } from './pages/editors/AboutTimelineEditor'
 import { FooterEditor } from './pages/editors/FooterEditor'
 import { SectionsEditor } from './pages/editors/SectionsEditor'
 

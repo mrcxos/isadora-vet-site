@@ -58,7 +58,26 @@ export const ServicesEditor = () => {
       </div>
     )
   }
+async function remove(id: string) {
+  const confirmar = window.confirm(
+    'Tem certeza que deseja excluir este serviço?'
+  )
 
+  if (!confirmar) return
+
+  const { error } = await supabase
+    .from('services')
+    .delete()
+    .eq('id', id)
+
+  if (error) {
+    alert('Erro ao excluir')
+    return
+  }
+
+  alert('Serviço excluído!')
+  loadData()
+}
   return (
     <div style={{ padding: '2rem' }}>
       <h1>Editor de Serviços</h1>
@@ -67,24 +86,25 @@ export const ServicesEditor = () => {
         <div
           key={service.id}
           style={{
-            border: '1px solid #ddd',
-            padding: '1rem',
-            marginBottom: '2rem',
-            borderRadius: '8px',
-          }}
+  background: 'white',
+  borderRadius: '16px',
+  padding: '1.5rem',
+  marginBottom: '1.5rem',
+  boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+}}
         >
           <h3>Serviço {index + 1}</h3>
 
           <label>
             Título
             <input
-              style={{ width: '100%' }}
-              value={service.title || ''}
-              onChange={(e) => {
-                const updated = [...services]
-                updated[index].title = e.target.value
-                setServices(updated)
-              }}
+              style={{
+  width: '100%',
+  padding: '12px',
+  borderRadius: '10px',
+  border: '1px solid #d6d3d1',
+  marginTop: '6px',
+}}
             />
           </label>
 
@@ -201,15 +221,34 @@ export const ServicesEditor = () => {
           <br />
           <br />
 
+        <button
+  onClick={() => save(service)}
+  style={{
+    background: '#C4622D',
+    color: 'white',
+    border: 'none',
+    padding: '12px 24px',
+    borderRadius: '10px',
+    cursor: 'pointer',
+    fontWeight: 600,
+  }}
+>
+  Salvar Serviço
+</button>
           <button
-            onClick={() => save(service)}
-            style={{
-              padding: '10px 20px',
-              cursor: 'pointer',
-            }}
-          >
-            Salvar Serviço
-          </button>
+  onClick={() => remove(service.id)}
+  style={{
+    marginLeft: '10px',
+    background: '#dc2626',
+    color: 'white',
+    border: 'none',
+    padding: '10px 20px',
+    borderRadius: '8px',
+    cursor: 'pointer',
+  }}
+>
+  Excluir
+</button>
         </div>
       ))}
     </div>
