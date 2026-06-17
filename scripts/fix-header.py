@@ -1,3 +1,6 @@
+path = "/Users/isadoralima/Downloads/ISADORA-VET-vercel-fixed/src/app/components/Header.tsx"
+
+content = """\
 import { useSiteSettings } from "../../hooks/useSiteData";
 import { useState, useEffect } from "react";
 import { Menu, X, PawPrint } from "lucide-react";
@@ -48,7 +51,7 @@ export function Header() {
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between" style={{ height: "72px" }}>
-            <a
+            
               href="#inicio"
               onClick={(e) => handleNavClick(e, "#inicio")}
               className="flex items-center gap-2.5 group"
@@ -77,7 +80,7 @@ export function Header() {
 
             <nav className="hidden lg:flex items-center gap-1">
               {navLinks.map((link) => (
-                <a
+                
                   key={link.href}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
@@ -96,7 +99,7 @@ export function Header() {
             </nav>
 
             <div className="hidden lg:flex items-center gap-3">
-              <a
+              
                 href={settings.primary_cta_link || "#contato"}
                 onClick={(e) => handleNavClick(e, settings.primary_cta_link || "#contato")}
                 className="px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 hover:opacity-90"
@@ -139,7 +142,7 @@ export function Header() {
           >
             <div className="px-6 py-4 flex flex-col gap-1">
               {navLinks.map((link) => (
-                <a
+                
                   key={link.href}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
@@ -149,7 +152,7 @@ export function Header() {
                   {link.label}
                 </a>
               ))}
-              <a
+              
                 href={settings.primary_cta_link || "#contato"}
                 onClick={(e) => handleNavClick(e, settings.primary_cta_link || "#contato")}
                 className="mt-2 px-4 py-3 rounded-xl text-base font-medium text-center"
@@ -167,3 +170,9 @@ export function Header() {
     </>
   );
 }
+"""
+
+with open(path, "w") as f:
+    f.write(content)
+
+print("Header.tsx gravado com sucesso.")

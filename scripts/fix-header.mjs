@@ -1,4 +1,6 @@
-import { useSiteSettings } from "../../hooks/useSiteData";
+import { writeFileSync } from 'fs'
+
+const content = `import { useSiteSettings } from "../../hooks/useSiteData";
 import { useState, useEffect } from "react";
 import { Menu, X, PawPrint } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
@@ -48,11 +50,7 @@ export function Header() {
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between" style={{ height: "72px" }}>
-            <a
-              href="#inicio"
-              onClick={(e) => handleNavClick(e, "#inicio")}
-              className="flex items-center gap-2.5 group"
-            >
+            <a href="#inicio" onClick={(e) => handleNavClick(e, "#inicio")} className="flex items-center gap-2.5 group">
               <div
                 className="w-9 h-9 rounded-xl flex items-center justify-center transition-transform group-hover:scale-105"
                 style={{ background: "linear-gradient(135deg, #C4622D, #A04E22)" }}
@@ -60,16 +58,10 @@ export function Header() {
                 <PawPrint size={18} color="white" strokeWidth={2} />
               </div>
               <div className="flex flex-col leading-none">
-                <span
-                  className="text-sm tracking-wide"
-                  style={{ fontFamily: "var(--font-display)", fontWeight: 600, color: "#1C1917", letterSpacing: "0.02em" }}
-                >
+                <span className="text-sm tracking-wide" style={{ fontFamily: "var(--font-display)", fontWeight: 600, color: "#1C1917", letterSpacing: "0.02em" }}>
                   {settings.company_name}
                 </span>
-                <span
-                  className="text-xs"
-                  style={{ color: "#C4622D", letterSpacing: "0.06em", fontWeight: 500 }}
-                >
+                <span className="text-xs" style={{ color: "#C4622D", letterSpacing: "0.06em", fontWeight: 500 }}>
                   {settings.company_subtitle}
                 </span>
               </div>
@@ -77,18 +69,14 @@ export function Header() {
 
             <nav className="hidden lg:flex items-center gap-1">
               {navLinks.map((link) => (
-                <a
+                
                   key={link.href}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
                   className="px-3.5 py-2 rounded-lg text-sm transition-all duration-200"
                   style={{ color: "#44403C", fontWeight: 500 }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.color = "#C4622D";
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.color = "#44403C";
-                  }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "#C4622D"; }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "#44403C"; }}
                 >
                   {link.label}
                 </a>
@@ -96,25 +84,17 @@ export function Header() {
             </nav>
 
             <div className="hidden lg:flex items-center gap-3">
-              <a
+              
                 href={settings.primary_cta_link || "#contato"}
                 onClick={(e) => handleNavClick(e, settings.primary_cta_link || "#contato")}
                 className="px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 hover:opacity-90"
-                style={{
-                  background: "linear-gradient(135deg, #C4622D, #A04E22)",
-                  color: "white",
-                  boxShadow: "0 2px 12px rgba(196,98,45,0.35)",
-                }}
+                style={{ background: "linear-gradient(135deg, #C4622D, #A04E22)", color: "white", boxShadow: "0 2px 12px rgba(196,98,45,0.35)" }}
               >
                 {settings.primary_cta_text}
               </a>
             </div>
 
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="lg:hidden p-2 rounded-lg"
-              style={{ color: "#1C1917" }}
-            >
+            <button onClick={() => setMenuOpen(!menuOpen)} className="lg:hidden p-2 rounded-lg" style={{ color: "#1C1917" }}>
               {menuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
@@ -129,17 +109,11 @@ export function Header() {
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
             className="fixed top-[72px] left-0 right-0 z-40 lg:hidden"
-            style={{
-              background: "rgba(250, 248, 245, 0.96)",
-              backdropFilter: "blur(24px)",
-              WebkitBackdropFilter: "blur(24px)",
-              borderBottom: "1px solid rgba(196, 98, 45, 0.12)",
-              boxShadow: "0 8px 32px rgba(28,25,23,0.08)",
-            }}
+            style={{ background: "rgba(250, 248, 245, 0.96)", backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)", borderBottom: "1px solid rgba(196, 98, 45, 0.12)", boxShadow: "0 8px 32px rgba(28,25,23,0.08)" }}
           >
             <div className="px-6 py-4 flex flex-col gap-1">
               {navLinks.map((link) => (
-                <a
+                
                   key={link.href}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
@@ -149,14 +123,11 @@ export function Header() {
                   {link.label}
                 </a>
               ))}
-              <a
+              
                 href={settings.primary_cta_link || "#contato"}
                 onClick={(e) => handleNavClick(e, settings.primary_cta_link || "#contato")}
                 className="mt-2 px-4 py-3 rounded-xl text-base font-medium text-center"
-                style={{
-                  background: "linear-gradient(135deg, #C4622D, #A04E22)",
-                  color: "white",
-                }}
+                style={{ background: "linear-gradient(135deg, #C4622D, #A04E22)", color: "white" }}
               >
                 {settings.primary_cta_text}
               </a>
@@ -167,3 +138,7 @@ export function Header() {
     </>
   );
 }
+`
+
+writeFileSync('src/app/components/Header.tsx', content)
+console.log('Header.tsx gravado com sucesso.')

@@ -11,6 +11,7 @@ import type {
   Testimonial,
   Faq,
 } from '../lib/supabase'
+import type { SiteSettings } from '../lib/supabase'
 
 // ─── Dados de fallback (conteúdo original do site) ───────────
 // Usados automaticamente se o Supabase não responder
@@ -132,7 +133,17 @@ const FALLBACK_FAQ: Faq[] = [
   { id: '9', question: 'Vocês também ajudam com a parte de adaptar o pet ao país de destino?', answer: 'Sim! Nossa assessoria vai além da documentação e do transporte. Orientamos sobre climas diferentes, alimentação no exterior, encontrar veterinários de confiança no destino, registro do animal no novo país quando necessário, e adaptação do pet ao novo ambiente. Queremos garantir não apenas que seu pet chegue, mas que esteja bem na nova casa.', category: 'Pós-viagem', order_index: 8, is_visible: true, updated_at: '' },
   { id: '10', question: 'E se eu precisar retornar ao Brasil com meu pet depois de um tempo?', answer: 'O retorno ao Brasil também tem suas exigências. O MAPA (Ministério da Agricultura) exige certificado de saúde emitido pelo veterinário oficial do país de origem, vacinas em dia e, dependendo do país, outros documentos. Caso você precise planejar o retorno, podemos orientar sobre o processo de reimportação, que em muitos casos é mais simples do que a exportação, mas ainda assim requer atenção aos detalhes.', category: 'Retorno ao Brasil', order_index: 9, is_visible: true, updated_at: '' },
 ]
-
+const FALLBACK_SITE_SETTINGS: SiteSettings = {
+  id: 'main',
+  company_name: 'Isadora Lima',
+  company_subtitle: 'PET TRAVEL',
+  logo_url: '',
+  primary_cta_text: 'Consulta Gratuita',
+  primary_cta_link: '#contato',
+  whatsapp_url: '',
+  instagram_url: '',
+  email: '',
+}
 // ─── Hook genérico interno ────────────────────────────────────
 
 function useSupabaseData<T>(
@@ -274,5 +285,20 @@ export function useFaq() {
       return data ?? []
     },
     FALLBACK_FAQ
+  )
+}
+
+export function useSiteSettings() {
+  return useSupabaseData<SiteSettings>(
+    async () => {
+      const { data, error } = await supabase
+        .from('site_settings')
+        .select('*')
+        .limit(1)
+        .single()
+      if (error || !data) throw error
+      return data
+    },
+    FALLBACK_SITE_SETTINGS
   )
 }

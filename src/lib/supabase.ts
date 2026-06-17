@@ -152,3 +152,14 @@ export type SiteImage = {
   alt_text: string
   updated_at: string
 }
+export type SiteSettings = {
+  id: string
+  company_name: string
+  company_subtitle: string
+  logo_url: string
+  primary_cta_text: string
+  primary_cta_link: string
+  whatsapp_url: string
+  instagram_url: string
+  email: string
+}

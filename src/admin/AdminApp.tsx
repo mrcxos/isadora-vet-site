@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useNavigate, Routes, Route } from 'react-router'
 import { supabase } from '../lib/supabase'
 import { Dashboard } from './pages/Dashboard'
-
+import { SiteSettingsEditor } from './pages/editors/SiteSettingsEditor'
 
 import { HeroEditor } from './pages/editors/HeroEditor'
 import { ContactEditor } from './pages/editors/ContactEditor'
@@ -34,6 +34,11 @@ export function AdminApp() {
 }
 
   const navItems = [
+    {
+  icon: LayoutDashboard,
+  label: 'Configurações',
+  path: '/admin/settings',
+},
   { icon: LayoutDashboard, label: 'Dashboard', path: '/admin' },
 
   { icon: LayoutDashboard, label: 'Hero', path: '/admin/hero' },
@@ -266,6 +271,10 @@ export function AdminApp() {
           }}
         >
         <Routes>
+          <Route
+  path="settings"
+  element={<SiteSettingsEditor />}
+/>
   <Route index element={<Dashboard />} />
 
   <Route path="hero" element={<HeroEditor />} />
