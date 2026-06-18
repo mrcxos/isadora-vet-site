@@ -57,7 +57,15 @@ export function Header() {
                 className="w-9 h-9 rounded-xl flex items-center justify-center transition-transform group-hover:scale-105"
                 style={{ background: "linear-gradient(135deg, #C4622D, #A04E22)" }}
               >
-                <PawPrint size={18} color="white" strokeWidth={2} />
+                {settings?.logo_url ? (
+  <img
+    src={settings.logo_url}
+    alt={settings.company_name}
+    className="w-9 h-9 object-contain"
+  />
+) : (
+  <PawPrint size={18} color="white" strokeWidth={2} />
+)}
               </div>
               <div className="flex flex-col leading-none">
                 <span

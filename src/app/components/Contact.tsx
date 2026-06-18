@@ -88,7 +88,7 @@ export function Contact() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit}>
-                  <h3 className="mb-2" style={{ fontWeight: 700, color: "#1C1917", fontSize: "1.25rem" }}>Solicitar Consulta Gratuita</h3>
+                  <h3 className="mb-2" style={{ fontWeight: 700, color: "#1C1917", fontSize: "1.25rem" }}>Solicite seu orçamento</h3>
                   <p className="mb-8" style={{ color: "#78716C", fontSize: "0.9rem" }}>Preencha o formulário abaixo e entrarei em contato em até 24h.</p>
                   <div className="grid sm:grid-cols-2 gap-5">
                     <div className="sm:col-span-2">
@@ -128,7 +128,7 @@ export function Contact() {
                     </div>
                   </div>
                   <button type="submit" className="w-full flex items-center justify-center gap-2.5 py-4 rounded-2xl text-base font-medium mt-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 active:scale-95" style={{ background: "linear-gradient(135deg, #C4622D, #A04E22)", color: "white", boxShadow: "0 4px 20px rgba(196,98,45,0.35)" }}>
-                    <Send size={18} />Solicitar Consulta Gratuita
+                    <Send size={18} />Solicite seu orçamento
                   </button>
                   <p className="text-center mt-4" style={{ fontSize: "0.8125rem", color: "#78716C" }}>Ao enviar, você concorda com nossa política de privacidade. Nenhum dado é compartilhado com terceiros.</p>
                 </form>
