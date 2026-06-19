@@ -13,11 +13,16 @@ export function Hero() {
   return (
     <section id="inicio" className="relative min-h-screen flex items-center overflow-hidden">
       <div className="absolute inset-0">
-        <img
-          src={hero.bg_image_url}
-          alt="Dois cachorros em frente a um avião, prontos para viagem internacional"
-          className="w-full h-full object-cover"
-        />
+        <picture style={{ display: 'block', width: '100%', height: '100%' }}>
+          {hero.bg_image_mobile_url && (
+            <source media="(max-width: 767px)" srcSet={hero.bg_image_mobile_url} />
+          )}
+          <img
+            src={hero.bg_image_url}
+            alt="Dois cachorros em frente a um avião, prontos para viagem internacional"
+            className="w-full h-full object-cover"
+          />
+        </picture>
         <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(28,25,23,0.72) 0%, rgba(28,25,23,0.45) 50%, rgba(107,124,92,0.25) 100%)" }} />
       </div>
 
@@ -51,17 +56,7 @@ export function Hero() {
             {hero.subtitle}
           </motion.p>
 
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }} className="flex flex-wrap gap-4 mb-16">
-            <button onClick={() => handleScrollTo("#contato")} className="group flex items-center gap-2.5 px-7 py-4 rounded-2xl text-base font-medium transition-all duration-300 hover:shadow-2xl hover:-translate-y-0.5 active:scale-95" style={{ background: "linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))", color: "white", boxShadow: "0 4px 24px rgba(196,98,45,0.45)" }}>
-              {hero.cta_primary_label}
-              <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
-            </button>
-            <button onClick={() => handleScrollTo("#servicos")} className="flex items-center gap-2.5 px-7 py-4 rounded-2xl text-base font-medium transition-all duration-300 hover:-translate-y-0.5 active:scale-95" style={{ background: "rgba(255,255,255,0.12)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.28)", color: "white" }}>
-              {hero.cta_secondary_label}
-            </button>
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.4 }} className="flex flex-wrap gap-6">
+          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }} className="flex flex-wrap gap-6 mb-16">
             {[
               { icon: Shield, text: hero.trust_1_text },
               { icon: Globe,  text: hero.trust_2_text },
@@ -72,6 +67,16 @@ export function Hero() {
                 <span className="text-sm font-medium">{text}</span>
               </div>
             ))}
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.4 }} className="flex flex-wrap gap-4 mt-8 md:mt-0">
+            <button onClick={() => handleScrollTo("#contato")} className="group flex items-center gap-2.5 px-7 py-4 rounded-2xl text-base font-medium transition-all duration-300 hover:shadow-2xl hover:-translate-y-0.5 active:scale-95 w-full sm:w-auto justify-center" style={{ background: "linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))", color: "white", boxShadow: "0 4px 24px rgba(196,98,45,0.45)" }}>
+              {hero.cta_primary_label}
+              <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+            </button>
+            <button onClick={() => handleScrollTo("#servicos")} className="flex items-center gap-2.5 px-7 py-4 rounded-2xl text-base font-medium transition-all duration-300 hover:-translate-y-0.5 active:scale-95 w-full sm:w-auto justify-center" style={{ background: "rgba(255,255,255,0.12)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.28)", color: "white" }}>
+              {hero.cta_secondary_label}
+            </button>
           </motion.div>
         </div>
       </div>

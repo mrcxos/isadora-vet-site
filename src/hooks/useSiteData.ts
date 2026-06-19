@@ -33,6 +33,7 @@ const FALLBACK_HERO: Hero = {
   trust_2_text: '+20 países atendidos',
   trust_3_text: '+500 pets transportados',
   bg_image_url: 'https://images.unsplash.com/photo-1696875135742-c3044510c9e2?w=1920&h=1080&fit=crop&auto=format',
+  bg_image_mobile_url: null,
   hero_decor_1_image: null,
   hero_decor_1_visible: true,
   hero_decor_2_image: null,

@@ -50,6 +50,7 @@ export const HeroEditor = () => {
         trust_2_text: hero.trust_2_text,
         trust_3_text: hero.trust_3_text,
         bg_image_url: hero.bg_image_url,
+        bg_image_mobile_url: hero.bg_image_mobile_url || null,
         hero_decor_1_image: hero.hero_decor_1_image || null,
         hero_decor_1_visible: hero.hero_decor_1_visible,
         hero_decor_2_image: hero.hero_decor_2_image || null,
@@ -124,13 +125,25 @@ export const HeroEditor = () => {
 
       <div style={{ ...card, borderLeft: '4px solid #C4622D' }}>
         <h2 style={{ marginTop: 0, marginBottom: '1.25rem', fontSize: '1rem', fontWeight: 700, color: '#1C1917' }}>Imagem de Fundo</h2>
-        <label style={{ display: 'block' }}>
-          <span style={lbl}>URL da imagem de fundo</span>
-          <input style={inp} value={hero.bg_image_url || ''} onChange={e => setHero({ ...hero, bg_image_url: e.target.value })} />
-        </label>
-        {hero.bg_image_url && (
-          <img src={hero.bg_image_url} alt="Preview" style={{ marginTop: '8px', width: '100%', maxHeight: '160px', objectFit: 'cover', borderRadius: '8px', border: '1px solid #e7e5e4' }} />
-        )}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          <label style={{ display: 'block' }}>
+            <span style={lbl}>URL da imagem de fundo (desktop)</span>
+            <input style={inp} value={hero.bg_image_url || ''} onChange={e => setHero({ ...hero, bg_image_url: e.target.value })} />
+          </label>
+          {hero.bg_image_url && (
+            <img src={hero.bg_image_url} alt="Preview desktop" style={{ width: '100%', maxHeight: '160px', objectFit: 'cover', borderRadius: '8px', border: '1px solid #e7e5e4' }} />
+          )}
+          <label style={{ display: 'block' }}>
+            <span style={lbl}>Imagem de fundo (mobile)</span>
+            <span style={{ display: 'block', fontSize: '0.8rem', color: '#78716C', marginBottom: '6px' }}>
+              Opcional. Se não preenchido, usa a mesma imagem do desktop. Recomendado para fotos que ficam cortadas de forma estranha em telas estreitas.
+            </span>
+            <input style={inp} value={hero.bg_image_mobile_url || ''} onChange={e => setHero({ ...hero, bg_image_mobile_url: e.target.value })} placeholder="https://..." />
+          </label>
+          {hero.bg_image_mobile_url && (
+            <img src={hero.bg_image_mobile_url} alt="Preview mobile" style={{ width: '160px', maxHeight: '220px', objectFit: 'cover', borderRadius: '8px', border: '1px solid #e7e5e4' }} />
+          )}
+        </div>
       </div>
 
       <div style={{ ...card, borderLeft: '4px solid #6B7C5C' }}>

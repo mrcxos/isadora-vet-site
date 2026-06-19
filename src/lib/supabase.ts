@@ -38,6 +38,7 @@ export type Hero = {
   trust_2_text: string
   trust_3_text: string
   bg_image_url: string
+  bg_image_mobile_url: string | null
   hero_decor_1_image: string | null
   hero_decor_1_visible: boolean
   hero_decor_2_image: string | null
