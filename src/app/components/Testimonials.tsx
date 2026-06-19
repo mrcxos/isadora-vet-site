@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
-import { useTestimonials } from "../../hooks/useSiteData";
+import { useTestimonials, useSectionContent } from "../../hooks/useSiteData";
 
 export function Testimonials() {
   const { data: testimonials } = useTestimonials();
+  const { data: section } = useSectionContent('testimonials');
   const [current, setCurrent] = useState(0);
   const total = testimonials.length;
 
@@ -15,18 +16,20 @@ export function Testimonials() {
   if (!t) return null;
 
   return (
-    <section id="depoimentos" className="py-28 overflow-hidden" style={{ background: "linear-gradient(135deg, #1C1917 0%, #292524 60%, #3B2D28 100%)" }}>
+    <section id="depoimentos" className="py-28 overflow-hidden" style={{ background: "linear-gradient(135deg, var(--color-text-dark) 0%, #292524 60%, #3B2D28 100%)" }}>
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <motion.div initial={{ opacity: 0, y: 32 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="text-center mb-16">
-          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase mb-5" style={{ background: "rgba(196,98,45,0.22)", color: "#E8845A" }}>Depoimentos</span>
+          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase mb-5" style={{ background: "rgba(196,98,45,0.22)", color: "var(--color-accent)" }}>{section.badge_text}</span>
           <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 600, color: "#FFFFFF", lineHeight: 1.2 }}>
-            O que as famílias<br />dizem sobre nós
+            {(section.title ?? '').split('\n').map((line, i, arr) => (
+              <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
+            ))}
           </h2>
         </motion.div>
 
         <div className="flex justify-center gap-1 mb-14">
-          {[...Array(5)].map((_, i) => <Star key={i} size={22} fill="#C4622D" color="#C4622D" />)}
-          <span className="ml-3 text-sm font-medium" style={{ color: "rgba(255,255,255,0.65)" }}>5.0 · 500+ avaliações</span>
+          {[...Array(5)].map((_, i) => <Star key={i} size={22} fill="var(--color-primary)" color="var(--color-primary)" />)}
+          <span className="ml-3 text-sm font-medium" style={{ color: "rgba(255,255,255,0.65)" }}>{section.secondary_text}</span>
         </div>
 
         <div className="max-w-4xl mx-auto">
@@ -44,11 +47,11 @@ export function Testimonials() {
                   <div>
                     <p style={{ fontWeight: 600, color: "#FFFFFF", fontSize: "0.9375rem" }}>{t.name}</p>
                     <p style={{ fontSize: "0.8125rem", color: "rgba(255,255,255,0.5)", marginTop: "0.125rem" }}>{t.location}</p>
-                    <p style={{ fontSize: "0.8125rem", color: "#E8845A", marginTop: "0.125rem" }}>{t.pet}</p>
+                    <p style={{ fontSize: "0.8125rem", color: "var(--color-accent)", marginTop: "0.125rem" }}>{t.pet}</p>
                   </div>
                 </div>
                 <div className="flex gap-1">
-                  {[...Array(t.rating)].map((_, i) => <Star key={i} size={16} fill="#C4622D" color="#C4622D" />)}
+                  {[...Array(t.rating)].map((_, i) => <Star key={i} size={16} fill="var(--color-primary)" color="var(--color-primary)" />)}
                 </div>
               </div>
             </motion.div>
@@ -60,7 +63,7 @@ export function Testimonials() {
             </button>
             <div className="flex gap-2">
               {testimonials.map((_, i) => (
-                <button key={i} onClick={() => setCurrent(i)} className="transition-all duration-300 rounded-full" style={{ width: i === current ? "24px" : "8px", height: "8px", background: i === current ? "#C4622D" : "rgba(255,255,255,0.25)" }} />
+                <button key={i} onClick={() => setCurrent(i)} className="transition-all duration-300 rounded-full" style={{ width: i === current ? "24px" : "8px", height: "8px", background: i === current ? "var(--color-primary)" : "rgba(255,255,255,0.25)" }} />
               ))}
             </div>
             <button onClick={next} className="w-11 h-11 rounded-full flex items-center justify-center transition-all hover:scale-105 active:scale-95" style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.14)", color: "rgba(255,255,255,0.7)" }}>

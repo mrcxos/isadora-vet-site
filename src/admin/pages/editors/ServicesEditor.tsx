@@ -4,6 +4,48 @@ import { supabase } from '../../../lib/supabase'
 export const ServicesEditor = () => {
   const [services, setServices] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [sectionContent, setSectionContent] = useState({
+    badge_text: 'Nossos Serviços',
+    title: 'Tudo que seu pet precisa\npara uma viagem perfeita',
+    subtitle: 'Cuidamos de cada detalhe para que a viagem internacional do seu pet seja segura, legal e tranquila. Do planejamento à chegada no destino.',
+    cta_button_text: 'Solicitar Assessoria Completa',
+  })
+  const [sectionSaving, setSectionSaving] = useState(false)
+
+  async function loadSectionContent() {
+    const { data } = await supabase
+      .from('section_content')
+      .select('*')
+      .eq('section_id', 'services')
+      .single()
+    if (data) {
+      setSectionContent({
+        badge_text: data.badge_text ?? 'Nossos Serviços',
+        title: data.title ?? 'Tudo que seu pet precisa\npara uma viagem perfeita',
+        subtitle: data.subtitle ?? '',
+        cta_button_text: data.cta_button_text ?? '',
+      })
+    }
+  }
+
+  async function saveSectionContent() {
+    setSectionSaving(true)
+    const { error } = await supabase
+      .from('section_content')
+      .upsert({
+        section_id: 'services',
+        badge_text: sectionContent.badge_text,
+        title: sectionContent.title,
+        subtitle: sectionContent.subtitle,
+        cta_button_text: sectionContent.cta_button_text,
+        secondary_text: null,
+        secondary_cta_text: null,
+        updated_at: new Date().toISOString(),
+      })
+    setSectionSaving(false)
+    if (error) { alert('Erro ao salvar cabeçalho'); return }
+    alert('Cabeçalho salvo com sucesso!')
+  }
 
   async function loadData() {
     const { data, error } = await supabase
@@ -23,6 +65,7 @@ export const ServicesEditor = () => {
 
   useEffect(() => {
     loadData()
+    loadSectionContent()
   }, [])
 
   async function save(service: any) {
@@ -81,6 +124,51 @@ async function remove(id: string) {
   return (
     <div style={{ padding: '2rem' }}>
       <h1>Editor de Serviços</h1>
+
+      <div style={{ background: 'white', borderRadius: '16px', padding: '1.5rem', marginBottom: '1.5rem', boxShadow: '0 4px 20px rgba(0,0,0,0.08)', borderLeft: '4px solid #C4622D' }}>
+        <h2 style={{ marginTop: 0, marginBottom: '1.25rem', fontSize: '1rem', fontWeight: 700, color: '#1C1917' }}>
+          Cabeçalho da Seção Serviços
+        </h2>
+
+        <label style={{ display: 'block', marginBottom: '1rem' }}>
+          <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#57534E', display: 'block', marginBottom: '4px' }}>Texto do badge (ex: Nossos Serviços)</span>
+          <input style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid #d6d3d1', fontSize: '0.9rem', boxSizing: 'border-box' }}
+            value={sectionContent.badge_text}
+            onChange={e => setSectionContent(prev => ({ ...prev, badge_text: e.target.value }))}
+          />
+        </label>
+
+        <label style={{ display: 'block', marginBottom: '1rem' }}>
+          <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#57534E', display: 'block', marginBottom: '4px' }}>Título principal (use \n para quebra de linha)</span>
+          <input style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid #d6d3d1', fontSize: '0.9rem', boxSizing: 'border-box' }}
+            value={sectionContent.title}
+            onChange={e => setSectionContent(prev => ({ ...prev, title: e.target.value }))}
+          />
+        </label>
+
+        <label style={{ display: 'block', marginBottom: '1rem' }}>
+          <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#57534E', display: 'block', marginBottom: '4px' }}>Subtítulo abaixo do título</span>
+          <textarea style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid #d6d3d1', fontSize: '0.9rem', minHeight: '80px', resize: 'vertical', boxSizing: 'border-box' }}
+            value={sectionContent.subtitle}
+            onChange={e => setSectionContent(prev => ({ ...prev, subtitle: e.target.value }))}
+          />
+        </label>
+
+        <label style={{ display: 'block', marginBottom: '1.25rem' }}>
+          <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#57534E', display: 'block', marginBottom: '4px' }}>Texto do botão de rodapé (ex: Solicitar Assessoria Completa)</span>
+          <input style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '1px solid #d6d3d1', fontSize: '0.9rem', boxSizing: 'border-box' }}
+            value={sectionContent.cta_button_text}
+            onChange={e => setSectionContent(prev => ({ ...prev, cta_button_text: e.target.value }))}
+          />
+        </label>
+
+        <button onClick={saveSectionContent} disabled={sectionSaving}
+          style={{ background: '#C4622D', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '10px', cursor: sectionSaving ? 'not-allowed' : 'pointer', fontWeight: 600, opacity: sectionSaving ? 0.7 : 1 }}>
+          {sectionSaving ? 'Salvando...' : 'Salvar Cabeçalho'}
+        </button>
+      </div>
+
+      <h2 style={{ marginBottom: '1rem', fontSize: '1rem', fontWeight: 700, color: '#1C1917' }}>Serviços individuais</h2>
 
       {services.map((service, index) => (
         <div

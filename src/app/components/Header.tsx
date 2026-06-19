@@ -1,20 +1,11 @@
-import { useSiteSettings } from "../../hooks/useSiteData";
+import { useSiteSettings, useNavLinks } from "../../hooks/useSiteData";
 import { useState, useEffect } from "react";
 import { Menu, X, PawPrint } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
-const navLinks = [
-  { label: "Início", href: "#inicio" },
-  { label: "Serviços", href: "#servicos" },
-  { label: "Destinos", href: "#destinos" },
-  { label: "Sobre", href: "#sobre" },
-  { label: "Depoimentos", href: "#depoimentos" },
-  { label: "FAQ", href: "#faq" },
-  { label: "Contato", href: "#contato" },
-];
-
 export function Header() {
   const { data: settings } = useSiteSettings();
+  const { data: navLinks } = useNavLinks();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -55,7 +46,7 @@ export function Header() {
             >
               <div
                 className="w-9 h-9 rounded-xl flex items-center justify-center transition-transform group-hover:scale-105"
-                style={{ background: "linear-gradient(135deg, #C4622D, #A04E22)" }}
+                style={{ background: "linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))" }}
               >
                 {settings?.logo_url ? (
   <img
@@ -70,13 +61,13 @@ export function Header() {
               <div className="flex flex-col leading-none">
                 <span
                   className="text-sm tracking-wide"
-                  style={{ fontFamily: "var(--font-display)", fontWeight: 600, color: "#1C1917", letterSpacing: "0.02em" }}
+                  style={{ fontFamily: "var(--font-display)", fontWeight: 600, color: "var(--color-text-dark)", letterSpacing: "0.02em" }}
                 >
                   {settings.company_name}
                 </span>
                 <span
                   className="text-xs"
-                  style={{ color: "#C4622D", letterSpacing: "0.06em", fontWeight: 500 }}
+                  style={{ color: "var(--color-primary)", letterSpacing: "0.06em", fontWeight: 500 }}
                 >
                   {settings.company_subtitle}
                 </span>
@@ -92,7 +83,7 @@ export function Header() {
                   className="px-3.5 py-2 rounded-lg text-sm transition-all duration-200"
                   style={{ color: "#44403C", fontWeight: 500 }}
                   onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.color = "#C4622D";
+                    (e.currentTarget as HTMLElement).style.color = "var(--color-primary)";
                   }}
                   onMouseLeave={(e) => {
                     (e.currentTarget as HTMLElement).style.color = "#44403C";
@@ -109,7 +100,7 @@ export function Header() {
                 onClick={(e) => handleNavClick(e, settings.primary_cta_link || "#contato")}
                 className="px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 hover:opacity-90"
                 style={{
-                  background: "linear-gradient(135deg, #C4622D, #A04E22)",
+                  background: "linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))",
                   color: "white",
                   boxShadow: "0 2px 12px rgba(196,98,45,0.35)",
                 }}
@@ -121,7 +112,7 @@ export function Header() {
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               className="lg:hidden p-2 rounded-lg"
-              style={{ color: "#1C1917" }}
+              style={{ color: "var(--color-text-dark)" }}
             >
               {menuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
@@ -152,7 +143,7 @@ export function Header() {
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
                   className="px-4 py-3 rounded-xl text-base transition-colors"
-                  style={{ color: "#1C1917", fontWeight: 500 }}
+                  style={{ color: "var(--color-text-dark)", fontWeight: 500 }}
                 >
                   {link.label}
                 </a>
@@ -162,7 +153,7 @@ export function Header() {
                 onClick={(e) => handleNavClick(e, settings.primary_cta_link || "#contato")}
                 className="mt-2 px-4 py-3 rounded-xl text-base font-medium text-center"
                 style={{
-                  background: "linear-gradient(135deg, #C4622D, #A04E22)",
+                  background: "linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))",
                   color: "white",
                 }}
               >

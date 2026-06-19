@@ -21,8 +21,16 @@ export function Hero() {
         <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(28,25,23,0.72) 0%, rgba(28,25,23,0.45) 50%, rgba(107,124,92,0.25) 100%)" }} />
       </div>
 
-      <div className="absolute top-24 right-8 lg:right-24 w-48 h-48 rounded-3xl hidden md:block" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.15)", boxShadow: "0 8px 32px rgba(0,0,0,0.12)" }} />
-      <div className="absolute bottom-32 right-16 lg:right-48 w-28 h-28 rounded-2xl hidden md:block" style={{ background: "rgba(196,98,45,0.18)", backdropFilter: "blur(8px)", border: "1px solid rgba(196,98,45,0.25)" }} />
+      {hero.hero_decor_1_visible !== false && (
+        <div className="absolute top-24 right-8 lg:right-24 w-48 h-48 rounded-3xl hidden md:block" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.15)", boxShadow: "0 8px 32px rgba(0,0,0,0.12)", overflow: "hidden" }}>
+          {hero.hero_decor_1_image && <img src={hero.hero_decor_1_image} alt="" style={{ position: "absolute", top: 0, right: 0, bottom: 0, left: 0, width: "100%", height: "100%", objectFit: "cover" }} />}
+        </div>
+      )}
+      {hero.hero_decor_2_visible !== false && (
+        <div className="absolute bottom-32 right-16 lg:right-48 w-28 h-28 rounded-2xl hidden md:block" style={{ background: "rgba(196,98,45,0.18)", backdropFilter: "blur(8px)", border: "1px solid rgba(196,98,45,0.25)", overflow: "hidden" }}>
+          {hero.hero_decor_2_image && <img src={hero.hero_decor_2_image} alt="" style={{ position: "absolute", top: 0, right: 0, bottom: 0, left: 0, width: "100%", height: "100%", objectFit: "cover" }} />}
+        </div>
+      )}
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 pt-28 pb-20">
         <div className="max-w-3xl">
@@ -34,7 +42,7 @@ export function Hero() {
           <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }} className="mb-6 leading-tight" style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2.4rem, 6vw, 4.5rem)", fontWeight: 600, color: "#FFFFFF", lineHeight: 1.12 }}>
             {hero.title_line_1}
             <br />
-            <span style={{ color: "#E8845A" }}>{hero.title_line_2}</span>
+            <span style={{ color: "var(--color-accent)" }}>{hero.title_line_2}</span>
             <br />
             {hero.title_line_3}
           </motion.h1>
@@ -44,7 +52,7 @@ export function Hero() {
           </motion.p>
 
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }} className="flex flex-wrap gap-4 mb-16">
-            <button onClick={() => handleScrollTo("#contato")} className="group flex items-center gap-2.5 px-7 py-4 rounded-2xl text-base font-medium transition-all duration-300 hover:shadow-2xl hover:-translate-y-0.5 active:scale-95" style={{ background: "linear-gradient(135deg, #C4622D, #A04E22)", color: "white", boxShadow: "0 4px 24px rgba(196,98,45,0.45)" }}>
+            <button onClick={() => handleScrollTo("#contato")} className="group flex items-center gap-2.5 px-7 py-4 rounded-2xl text-base font-medium transition-all duration-300 hover:shadow-2xl hover:-translate-y-0.5 active:scale-95" style={{ background: "linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))", color: "white", boxShadow: "0 4px 24px rgba(196,98,45,0.45)" }}>
               {hero.cta_primary_label}
               <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
             </button>
@@ -60,7 +68,7 @@ export function Hero() {
               { icon: Star,   text: hero.trust_3_text },
             ].map(({ icon: Icon, text }) => (
               <div key={text} className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl" style={{ background: "rgba(255,255,255,0.10)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.18)", color: "rgba(255,255,255,0.9)" }}>
-                <Icon size={15} style={{ color: "#E8845A" }} />
+                <Icon size={15} style={{ color: "var(--color-accent)" }} />
                 <span className="text-sm font-medium">{text}</span>
               </div>
             ))}

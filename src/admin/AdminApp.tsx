@@ -15,6 +15,8 @@ import { AboutEditor } from './pages/editors/AboutEditor'
 import { AboutTimelineEditor } from './pages/editors/AboutTimelineEditor'
 import { FooterEditor } from './pages/editors/FooterEditor'
 import { SectionsEditor } from './pages/editors/SectionsEditor'
+import { NavLinksEditor } from './pages/editors/NavLinksEditor'
+import { HowItWorksEditor } from './pages/editors/HowItWorksEditor'
 
 import {
   LayoutDashboard,
@@ -57,7 +59,9 @@ export function AdminApp() {
 
   { icon: LayoutDashboard, label: 'Rodapé', path: '/admin/footer' },
 
+  { icon: LayoutDashboard, label: 'Como Funciona', path: '/admin/how-it-works' },
   { icon: LayoutDashboard, label: 'Seções', path: '/admin/sections' },
+  { icon: LayoutDashboard, label: 'Navegação', path: '/admin/nav-links' },
 ]
 
   return (
@@ -293,7 +297,9 @@ export function AdminApp() {
 
   <Route path="footer" element={<FooterEditor />} />
 
+  <Route path="how-it-works" element={<HowItWorksEditor />} />
   <Route path="sections" element={<SectionsEditor />} />
+  <Route path="nav-links" element={<NavLinksEditor />} />
 </Routes>
         </main>
       </div>

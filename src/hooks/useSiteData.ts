@@ -10,6 +10,10 @@ import type {
   Destination,
   Testimonial,
   Faq,
+  NavLink,
+  FooterLink,
+  SectionContent,
+  HowItWorksStep,
 } from '../lib/supabase'
 import type { SiteSettings } from '../lib/supabase'
 
@@ -29,26 +33,43 @@ const FALLBACK_HERO: Hero = {
   trust_2_text: '+20 países atendidos',
   trust_3_text: '+500 pets transportados',
   bg_image_url: 'https://images.unsplash.com/photo-1696875135742-c3044510c9e2?w=1920&h=1080&fit=crop&auto=format',
+  hero_decor_1_image: null,
+  hero_decor_1_visible: true,
+  hero_decor_2_image: null,
+  hero_decor_2_visible: true,
   updated_at: '',
 }
 
 const FALLBACK_CONTACT: Contact = {
   id: 'main',
+  badge_text: 'Entre em Contato',
   section_title: 'Vamos planejar a viagem do seu pet juntos',
   section_subtitle: 'A consulta inicial é gratuita e sem compromisso. Conte-me sobre o seu pet e o destino, e eu retorno em até 24 horas com um plano personalizado.',
+  sidebar_title: 'Fale comigo pelo canal de sua preferência',
   whatsapp_number: '+5500000000000',
   whatsapp_label: 'Resposta prioritária',
   email: 'contato@isadoralima.com.br',
+  email_response_text: 'Resposta em até 24h',
   instagram_handle: '@isadoralima.pettravel',
   instagram_url: 'https://instagram.com/isadoralima.pettravel',
+  instagram_subtitle: 'Dicas e novidades',
   phone_number: '+55 (00) 0000-0000',
   phone_hours: 'Seg–Sex, 9h–18h',
   trust_badge_text: 'Consulta inicial gratuita. Sem compromisso, sem pressão. Apenas orientação especializada para a família do seu pet.',
+  form_title: 'Solicite seu orçamento',
+  form_subtitle: 'Preencha o formulário abaixo e entrarei em contato em até 24h.',
+  submit_button_text: 'Solicite seu orçamento',
+  success_title: 'Mensagem recebida!',
+  success_body: 'Obrigada pelo contato! Retornarei em até 24 horas com orientações personalizadas para a viagem do seu pet.',
+  privacy_text: 'Ao enviar, você concorda com nossa política de privacidade. Nenhum dado é compartilhado com terceiros.',
+  is_visible: true,
+  show_form: true,
   updated_at: '',
 }
 
 const FALLBACK_ABOUT: About = {
   id: 'main',
+  section_title: 'A especialista que entende\no que seu pet significa para você',
   name: 'Isadora Lima',
   role_title: 'Especialista em Viagens Pet Internacionais',
   credentials_line: 'IATA Certified · +8 anos de experiência',
@@ -57,12 +78,17 @@ const FALLBACK_ABOUT: About = {
   photo_url: 'https://images.unsplash.com/photo-1573497019236-17f8177b81e8?w=800&h=1000&fit=crop&auto=format',
   credential_1_label: 'Certificada IATA',
   credential_1_sub: 'Transporte Animal',
+  credential_1_icon: 'GraduationCap',
   credential_2_label: '+500 Famílias',
   credential_2_sub: 'Atendidas com sucesso',
+  credential_2_icon: 'Award',
   credential_3_label: '+20 Países',
   credential_3_sub: 'Regulamentações dominadas',
+  credential_3_icon: 'Globe',
   credential_4_label: '100% Aprovação',
   credential_4_sub: 'Na entrada dos destinos',
+  credential_4_icon: 'Heart',
+  show_timeline: true,
   updated_at: '',
 }
 
@@ -85,8 +111,18 @@ const FALLBACK_FOOTER: Footer = {
   cta_primary_label: 'Solicitar Consulta Gratuita',
   cta_whatsapp_label: 'WhatsApp',
   copyright_text: 'Isadora Lima Assessoria de Viagem Pet Internacional. Todos os direitos reservados.',
+  credit_text: 'Feito com ❤ para os tutores e seus pets',
+  bg_color: '#1C1917',
   updated_at: '',
 }
+
+const FALLBACK_HOW_IT_WORKS_STEPS: HowItWorksStep[] = [
+  { id: '1', step_number: '01', icon_name: 'MessageCircle', title: 'Consulta Inicial Gratuita',    description: 'Você entra em contato e nos conta sobre seu pet, destino e prazo. Analisamos seu caso sem custo e sem compromisso.',                                                                          order_index: 0, is_visible: true, updated_at: '' },
+  { id: '2', step_number: '02', icon_name: 'ClipboardList', title: 'Diagnóstico e Plano',           description: 'Elaboramos um diagnóstico completo da situação e apresentamos um cronograma detalhado com todas as etapas necessárias.',                                                                       order_index: 1, is_visible: true, updated_at: '' },
+  { id: '3', step_number: '03', icon_name: 'FileCheck',     title: 'Execução da Documentação',      description: 'Orientamos cada passo: veterinário certo, exames, vacinas, certificados, apostilamentos e toda a burocracia envolvida.',                                                                    order_index: 2, is_visible: true, updated_at: '' },
+  { id: '4', step_number: '04', icon_name: 'Plane',         title: 'Organização do Transporte',     description: 'Selecionamos a melhor companhia aérea, definimos a caixa de transporte adequada e planejamos toda a logística da viagem.',                                                                   order_index: 3, is_visible: true, updated_at: '' },
+  { id: '5', step_number: '05', icon_name: 'PartyPopper',   title: 'Chegada Segura ao Destino',     description: 'Seu pet chega ao destino com toda a documentação em ordem, aprovado na inspeção veterinária e pronto para a nova fase!',                                                                    order_index: 4, is_visible: true, updated_at: '' },
+]
 
 const FALLBACK_SERVICES: Service[] = [
   { id: '1', title: 'Documentação Completa', description: 'Organizamos toda a documentação exigida para a entrada do seu pet no país de destino: passaporte veterinário, certificados sanitários, atestados de vacinas, microchip, sorologia antirrábica e tudo mais que o destino exige.', features: ['Certificado Internacional de Saúde', 'Passaporte Europeu', 'Sorologia Antirrábica', 'Apostilamento'], color: '#C4622D', icon_name: 'FileText', order_index: 0, is_visible: true, updated_at: '' },
@@ -133,6 +169,87 @@ const FALLBACK_FAQ: Faq[] = [
   { id: '9', question: 'Vocês também ajudam com a parte de adaptar o pet ao país de destino?', answer: 'Sim! Nossa assessoria vai além da documentação e do transporte. Orientamos sobre climas diferentes, alimentação no exterior, encontrar veterinários de confiança no destino, registro do animal no novo país quando necessário, e adaptação do pet ao novo ambiente. Queremos garantir não apenas que seu pet chegue, mas que esteja bem na nova casa.', category: 'Pós-viagem', order_index: 8, is_visible: true, updated_at: '' },
   { id: '10', question: 'E se eu precisar retornar ao Brasil com meu pet depois de um tempo?', answer: 'O retorno ao Brasil também tem suas exigências. O MAPA (Ministério da Agricultura) exige certificado de saúde emitido pelo veterinário oficial do país de origem, vacinas em dia e, dependendo do país, outros documentos. Caso você precise planejar o retorno, podemos orientar sobre o processo de reimportação, que em muitos casos é mais simples do que a exportação, mas ainda assim requer atenção aos detalhes.', category: 'Retorno ao Brasil', order_index: 9, is_visible: true, updated_at: '' },
 ]
+const FALLBACK_FOOTER_LINKS: FooterLink[] = [
+  { id: 'fl1',  group_name: 'Serviços',      group_order: 0, label: 'Documentação Completa',  href: '#servicos',    order_index: 0, updated_at: '' },
+  { id: 'fl2',  group_name: 'Serviços',      group_order: 0, label: 'Logística de Transporte', href: '#servicos',   order_index: 1, updated_at: '' },
+  { id: 'fl3',  group_name: 'Serviços',      group_order: 0, label: 'Consultoria Veterinária', href: '#servicos',   order_index: 2, updated_at: '' },
+  { id: 'fl4',  group_name: 'Serviços',      group_order: 0, label: 'Orientação por Destino',  href: '#destinos',   order_index: 3, updated_at: '' },
+  { id: 'fl5',  group_name: 'Serviços',      group_order: 0, label: 'Checklist e Cronograma',  href: '#servicos',   order_index: 4, updated_at: '' },
+  { id: 'fl6',  group_name: 'Destinos',      group_order: 1, label: 'Portugal',                href: '#destinos',   order_index: 0, updated_at: '' },
+  { id: 'fl7',  group_name: 'Destinos',      group_order: 1, label: 'Estados Unidos',          href: '#destinos',   order_index: 1, updated_at: '' },
+  { id: 'fl8',  group_name: 'Destinos',      group_order: 1, label: 'Austrália',               href: '#destinos',   order_index: 2, updated_at: '' },
+  { id: 'fl9',  group_name: 'Destinos',      group_order: 1, label: 'Reino Unido',             href: '#destinos',   order_index: 3, updated_at: '' },
+  { id: 'fl10', group_name: 'Destinos',      group_order: 1, label: 'Ver todos os destinos',   href: '#destinos',   order_index: 4, updated_at: '' },
+  { id: 'fl11', group_name: 'Institucional', group_order: 2, label: 'Sobre Isadora Lima',      href: '#sobre',      order_index: 0, updated_at: '' },
+  { id: 'fl12', group_name: 'Institucional', group_order: 2, label: 'Depoimentos',             href: '#depoimentos',order_index: 1, updated_at: '' },
+  { id: 'fl13', group_name: 'Institucional', group_order: 2, label: 'Perguntas Frequentes',    href: '#faq',        order_index: 2, updated_at: '' },
+  { id: 'fl14', group_name: 'Institucional', group_order: 2, label: 'Política de Privacidade', href: '#',           order_index: 3, updated_at: '' },
+  { id: 'fl15', group_name: 'Institucional', group_order: 2, label: 'Termos de Uso',           href: '#',           order_index: 4, updated_at: '' },
+]
+
+const FALLBACK_NAV_LINKS: NavLink[] = [
+  { id: '1', label: 'Início',      href: '#inicio',      order_index: 0, is_visible: true, updated_at: '' },
+  { id: '2', label: 'Serviços',    href: '#servicos',    order_index: 1, is_visible: true, updated_at: '' },
+  { id: '3', label: 'Destinos',    href: '#destinos',    order_index: 2, is_visible: true, updated_at: '' },
+  { id: '4', label: 'Sobre',       href: '#sobre',       order_index: 3, is_visible: true, updated_at: '' },
+  { id: '5', label: 'Depoimentos', href: '#depoimentos', order_index: 4, is_visible: true, updated_at: '' },
+  { id: '6', label: 'FAQ',         href: '#faq',         order_index: 5, is_visible: true, updated_at: '' },
+  { id: '7', label: 'Contato',     href: '#contato',     order_index: 6, is_visible: true, updated_at: '' },
+]
+
+const FALLBACK_SECTION_CONTENT: Record<string, SectionContent> = {
+  services: {
+    section_id: 'services',
+    badge_text: 'Nossos Serviços',
+    title: 'Tudo que seu pet precisa\npara uma viagem perfeita',
+    subtitle: 'Cuidamos de cada detalhe para que a viagem internacional do seu pet seja segura, legal e tranquila. Do planejamento à chegada no destino.',
+    cta_button_text: 'Solicitar Assessoria Completa',
+    secondary_text: null,
+    secondary_cta_text: null,
+    updated_at: '',
+  },
+  destinations: {
+    section_id: 'destinations',
+    badge_text: 'Destinos Atendidos',
+    title: 'Levamos seu pet para\nqualquer lugar do mundo',
+    subtitle: 'Conhecemos as regulamentações específicas de cada país. Seja para uma mudança permanente ou uma temporada, estamos prontos para orientar você em cada destino.',
+    cta_button_text: null,
+    secondary_text: 'Não encontrou seu destino na lista? Atendemos mais de 20 países ao redor do mundo. Entre em contato para uma consulta personalizada.',
+    secondary_cta_text: 'Consultar meu destino',
+    updated_at: '',
+  },
+  testimonials: {
+    section_id: 'testimonials',
+    badge_text: 'Depoimentos',
+    title: 'O que as famílias\ndizem sobre nós',
+    subtitle: null,
+    cta_button_text: null,
+    secondary_text: '5.0 · 500+ avaliações',
+    secondary_cta_text: null,
+    updated_at: '',
+  },
+  faq: {
+    section_id: 'faq',
+    badge_text: 'Perguntas Frequentes',
+    title: 'Tudo que você precisa\nsaber antes de viajar',
+    subtitle: 'Respondemos as dúvidas mais comuns dos tutores. Não encontrou o que procura? Entre em contato diretamente.',
+    cta_button_text: 'Falar com a Isadora',
+    secondary_text: 'Ainda tem dúvidas? Fale diretamente com a Isadora — a consulta inicial é gratuita.',
+    secondary_cta_text: null,
+    updated_at: '',
+  },
+  how_it_works: {
+    section_id: 'how_it_works',
+    badge_text: 'Como Funciona',
+    title: 'Do primeiro contato à\nchegada no destino',
+    subtitle: 'Um processo estruturado, humano e eficiente. Cuidamos de cada detalhe para que você não precise se preocupar com nada.',
+    cta_button_text: null,
+    secondary_text: null,
+    secondary_cta_text: null,
+    updated_at: '',
+  },
+}
+
 const FALLBACK_SITE_SETTINGS: SiteSettings = {
   id: 'main',
   company_name: 'Isadora Lima',
@@ -143,6 +260,13 @@ const FALLBACK_SITE_SETTINGS: SiteSettings = {
   whatsapp_url: '',
   instagram_url: '',
   email: '',
+  color_primary: '#C4622D',
+  color_primary_dark: '#A04E22',
+  color_secondary: '#6B7C5C',
+  color_accent: '#E8845A',
+  color_text_dark: '#1C1917',
+  color_bg_light: '#FAF8F5',
+  tracking_scripts: null,
 }
 // ─── Hook genérico interno ────────────────────────────────────
 
@@ -288,6 +412,38 @@ export function useFaq() {
   )
 }
 
+export function useNavLinks() {
+  return useSupabaseData<NavLink[]>(
+    async () => {
+      const { data, error } = await supabase
+        .from('nav_links')
+        .select('*')
+        .eq('is_visible', true)
+        .order('order_index')
+      if (error) throw error
+      return data ?? []
+    },
+    FALLBACK_NAV_LINKS
+  )
+}
+
+export function useFooterLinks() {
+  return useSupabaseData<FooterLink[]>(
+    async () => {
+      const { data, error } = await supabase
+        .from('footer_links')
+        .select('*')
+        .order('group_order')
+        .order('order_index')
+      console.log('[useFooterLinks] data:', data)
+      console.log('[useFooterLinks] error:', error)
+      if (error) throw error
+      return data ?? []
+    },
+    FALLBACK_FOOTER_LINKS
+  )
+}
+
 export function useSiteSettings() {
   return useSupabaseData<SiteSettings>(
     async () => {
@@ -296,9 +452,50 @@ export function useSiteSettings() {
         .select('*')
         .limit(1)
         .single()
+      console.log('[useSiteSettings] data:', data)
       if (error || !data) throw error
       return data
     },
     FALLBACK_SITE_SETTINGS
+  )
+}
+
+export function useHowItWorksSteps() {
+  return useSupabaseData<HowItWorksStep[]>(
+    async () => {
+      const { data, error } = await supabase
+        .from('how_it_works_steps')
+        .select('*')
+        .eq('is_visible', true)
+        .order('order_index')
+      if (error) throw error
+      return data ?? []
+    },
+    FALLBACK_HOW_IT_WORKS_STEPS
+  )
+}
+
+export function useSectionContent(sectionId: string) {
+  const fallback = FALLBACK_SECTION_CONTENT[sectionId] ?? {
+    section_id: sectionId,
+    badge_text: null,
+    title: null,
+    subtitle: null,
+    cta_button_text: null,
+    secondary_text: null,
+    secondary_cta_text: null,
+    updated_at: '',
+  }
+  return useSupabaseData<SectionContent>(
+    async () => {
+      const { data, error } = await supabase
+        .from('section_content')
+        .select('*')
+        .eq('section_id', sectionId)
+        .single()
+      if (error || !data) throw error
+      return data
+    },
+    fallback
   )
 }
