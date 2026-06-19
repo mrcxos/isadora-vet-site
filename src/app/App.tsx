@@ -9,12 +9,38 @@ import { About } from "./components/About";
 import { FAQ } from "./components/FAQ";
 import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
-import { useSiteSettings, useContact } from "../hooks/useSiteData";
+import {
+  useSiteSettings, useContact, useNavLinks,
+  useHero, useServices, useHowItWorksSteps,
+  useDestinations, useAbout, useFaq,
+  useFooter, useFooterLinks, useSectionContent,
+} from "../hooks/useSiteData";
 import React, { useEffect } from "react";
 
 export default function App() {
-  const { data: settings } = useSiteSettings();
-  const { data: contact } = useContact();
+  const { data: settings, loading: settingsLoading }          = useSiteSettings();
+  const { loading: navLinksLoading }                           = useNavLinks();
+  const { loading: heroLoading }                               = useHero();
+  const { loading: servicesLoading }                           = useServices();
+  const { loading: servicesSectionLoading }                    = useSectionContent('services');
+  const { loading: howItWorksStepsLoading }                    = useHowItWorksSteps();
+  const { loading: howItWorksSectionLoading }                  = useSectionContent('how_it_works');
+  const { loading: destinationsLoading }                       = useDestinations();
+  const { loading: destinationsSectionLoading }                = useSectionContent('destinations');
+  const { loading: aboutLoading }                              = useAbout();
+  const { loading: faqLoading }                                = useFaq();
+  const { loading: faqSectionLoading }                         = useSectionContent('faq');
+  const { loading: footerLoading }                             = useFooter();
+  const { loading: footerLinksLoading }                        = useFooterLinks();
+  const { data: contact, loading: contactLoading }             = useContact();
+
+  const isLoading =
+    settingsLoading || navLinksLoading || heroLoading ||
+    servicesLoading || servicesSectionLoading ||
+    howItWorksStepsLoading || howItWorksSectionLoading ||
+    destinationsLoading || destinationsSectionLoading ||
+    aboutLoading || faqLoading || faqSectionLoading ||
+    footerLoading || footerLinksLoading || contactLoading;
 
   useEffect(() => {
     const raw = settings.tracking_scripts?.trim()
@@ -38,6 +64,14 @@ export default function App() {
     })
     return () => { injected.forEach(el => el.parentNode?.removeChild(el)) }
   }, [settings.tracking_scripts])
+
+  if (isLoading) {
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#FAF8F5' }}>
+        <div className="animate-spin" style={{ width: '32px', height: '32px', borderRadius: '50%', border: '3px solid rgba(196,98,45,0.15)', borderTopColor: '#C4622D' }} />
+      </div>
+    );
+  }
 
   const themeVars = {
     "--color-primary":      settings.color_primary      ?? "#C4622D",

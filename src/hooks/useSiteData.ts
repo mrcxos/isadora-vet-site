@@ -268,23 +268,34 @@ const FALLBACK_SITE_SETTINGS: SiteSettings = {
   color_bg_light: '#FAF8F5',
   tracking_scripts: null,
 }
+// ─── Cache em memória (persiste entre instâncias do mesmo hook) ───────────
+const _cache = new Map<string, unknown>()
+
 // ─── Hook genérico interno ────────────────────────────────────
 
 function useSupabaseData<T>(
+  cacheKey: string,
   fetcher: () => Promise<T>,
   fallback: T
 ): { data: T; loading: boolean } {
-  const [data, setData] = useState<T>(fallback)
-  const [loading, setLoading] = useState(true)
+  const cached = _cache.get(cacheKey) as T | undefined
+  const [data, setData] = useState<T>(cached ?? fallback)
+  const [loading, setLoading] = useState(cached === undefined)
 
   useEffect(() => {
+    if (_cache.has(cacheKey)) return
     let cancelled = false
     fetcher()
-      .then(result => { if (!cancelled) setData(result) })
+      .then(result => {
+        if (!cancelled) {
+          _cache.set(cacheKey, result)
+          setData(result)
+        }
+      })
       .catch(() => { /* fallback já está no estado inicial */ })
       .finally(() => { if (!cancelled) setLoading(false) })
     return () => { cancelled = true }
-  }, [])
+  }, [cacheKey])
 
   return { data, loading }
 }
@@ -293,6 +304,7 @@ function useSupabaseData<T>(
 
 export function useHero() {
   return useSupabaseData<Hero>(
+    'hero',
     async () => {
       const { data, error } = await supabase
         .from('hero')
@@ -307,6 +319,7 @@ export function useHero() {
 
 export function useContact() {
   return useSupabaseData<Contact>(
+    'contact',
     async () => {
       const { data, error } = await supabase
         .from('contact')
@@ -322,6 +335,7 @@ export function useContact() {
 
 export function useAbout() {
   return useSupabaseData<{ about: About; timeline: AboutTimeline[] }>(
+    'about',
     async () => {
       const [aboutRes, timelineRes] = await Promise.all([
         supabase.from('about').select('*').eq('id', 'main').single(),
@@ -339,6 +353,7 @@ export function useAbout() {
 
 export function useFooter() {
   return useSupabaseData<Footer>(
+    'footer',
     async () => {
       const { data, error } = await supabase
         .from('footer')
@@ -354,6 +369,7 @@ export function useFooter() {
 
 export function useServices() {
   return useSupabaseData<Service[]>(
+    'services',
     async () => {
       const { data, error } = await supabase
         .from('services')
@@ -369,6 +385,7 @@ export function useServices() {
 
 export function useDestinations() {
   return useSupabaseData<Destination[]>(
+    'destinations',
     async () => {
       const { data, error } = await supabase
         .from('destinations')
@@ -384,6 +401,7 @@ export function useDestinations() {
 
 export function useTestimonials() {
   return useSupabaseData<Testimonial[]>(
+    'testimonials',
     async () => {
       const { data, error } = await supabase
         .from('testimonials')
@@ -399,6 +417,7 @@ export function useTestimonials() {
 
 export function useFaq() {
   return useSupabaseData<Faq[]>(
+    'faq',
     async () => {
       const { data, error } = await supabase
         .from('faq')
@@ -414,6 +433,7 @@ export function useFaq() {
 
 export function useNavLinks() {
   return useSupabaseData<NavLink[]>(
+    'nav_links',
     async () => {
       const { data, error } = await supabase
         .from('nav_links')
@@ -429,6 +449,7 @@ export function useNavLinks() {
 
 export function useFooterLinks() {
   return useSupabaseData<FooterLink[]>(
+    'footer_links',
     async () => {
       const { data, error } = await supabase
         .from('footer_links')
@@ -446,6 +467,7 @@ export function useFooterLinks() {
 
 export function useSiteSettings() {
   return useSupabaseData<SiteSettings>(
+    'site_settings',
     async () => {
       const { data, error } = await supabase
         .from('site_settings')
@@ -462,6 +484,7 @@ export function useSiteSettings() {
 
 export function useHowItWorksSteps() {
   return useSupabaseData<HowItWorksStep[]>(
+    'how_it_works_steps',
     async () => {
       const { data, error } = await supabase
         .from('how_it_works_steps')
@@ -487,6 +510,7 @@ export function useSectionContent(sectionId: string) {
     updated_at: '',
   }
   return useSupabaseData<SectionContent>(
+    `sc_${sectionId}`,
     async () => {
       const { data, error } = await supabase
         .from('section_content')
